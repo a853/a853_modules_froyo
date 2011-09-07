@@ -312,6 +312,20 @@ static void android_enable_function_hijack(struct usb_function *f, int enable)
 
 		if (!strcmp(f->name, "rndis")) 
 		{
+#ifdef CONFIG_USB_ANDROID_RNDIS_IAD
+			/* We should specify the correct device class, subclass
+			 * and protocol if we are using IAD for RNDIS.
+			 */
+			if (enable) {
+				dev->cdev->desc.bDeviceClass = USB_CLASS_MISC;
+				dev->cdev->desc.bDeviceSubClass = 0x02; // Common Class
+				dev->cdev->desc.bDeviceProtocol = 0x01; // Interface Association Descriptor
+			} else {
+				dev->cdev->desc.bDeviceClass = USB_CLASS_PER_INTERFACE;
+				dev->cdev->desc.bDeviceSubClass = USB_CLASS_PER_INTERFACE; // 0x00
+				dev->cdev->desc.bDeviceProtocol = USB_CLASS_PER_INTERFACE; // 0x00
+			}
+#else
 			/* We need to specify the COMM class in the
 			 * device descriptor if we are using RNDIS.
 			 */
@@ -319,6 +333,7 @@ static void android_enable_function_hijack(struct usb_function *f, int enable)
 				dev->cdev->desc.bDeviceClass = USB_CLASS_WIRELESS_CONTROLLER;
 			else
 				dev->cdev->desc.bDeviceClass = USB_CLASS_PER_INTERFACE;
+#endif
 		
 			/* Windows does not support other interfaces
 			 * when RNDIS is enabled, so we disable UMS when
