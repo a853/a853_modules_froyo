@@ -161,6 +161,16 @@ static char *usb_functions_mtp_adb[] =
 	"adb",
 };
 
+static char *usb_functions_acm[] = 
+{
+	"acm",
+};
+
+static char *usb_functions_factory[] = 
+{
+	"usbnet",
+};
+
 static char *usb_functions_all[] = 
 {
 	"acm",
@@ -189,6 +199,7 @@ static char *usb_functions_all[] =
 /* Motorola usb products structure.
  * Higher ones have greater priority when enabling functions directly.
  */
+ 
 static struct android_usb_product usb_products[] = 
 {
 	{
@@ -197,9 +208,9 @@ static struct android_usb_product usb_products[] =
 		.functions      = usb_functions_ums,
 	},
 	{
-		.product_id			= MAPPHONE_ADB_PRODUCT_ID,
-		.num_functions	= ARRAY_SIZE(usb_functions_ums_adb),
-		.functions			= usb_functions_ums_adb,
+		.product_id     = MAPPHONE_ADB_PRODUCT_ID,
+		.num_functions  = ARRAY_SIZE(usb_functions_ums_adb),
+		.functions      = usb_functions_ums_adb,
 	},
 	{
 		.product_id     = MAPPHONE_PHONE_PORTAL_LITE_PRODUCT_ID,
@@ -240,6 +251,16 @@ static struct android_usb_product usb_products[] =
 		.product_id     = MAPPHONE_RNDIS_ADB_PRODUCT_ID,
 		.num_functions  = ARRAY_SIZE(usb_functions_rndis_adb),
 		.functions      = usb_functions_rndis_adb,
+	},
+	{
+		.product_id     = MAPPHONE_ACM_PRODUCT_ID,
+		.num_functions  = ARRAY_SIZE(usb_functions_acm),
+		.functions      = usb_functions_acm,
+	},
+	{
+		.product_id     = MAPPHONE_FACTORY_PRODUCT_ID,
+		.num_functions  = ARRAY_SIZE(usb_functions_factory),
+		.functions      = usb_functions_factory,
 	},
 };
 
@@ -598,7 +619,7 @@ static void android_enable_function_hijack(struct usb_function *f, int enable)
 			}
 		}
 		
-		/* assign vid, pid and device class*/
+		/* assign vid, pid and device class */
 		if (dev_pid_vid != NULL)
 		{
 			/* Wnable it (it will be valid configuration) 
@@ -667,7 +688,7 @@ static unsigned long __init get_function_end_address(unsigned long address, int 
 	return 0xFFFFFFFF;
 }
 
-static void __init init_board_rndis(void)
+static void __init init_rndis_device(void)
 {
 	unsigned int val[2];
 	unsigned int reg;
@@ -682,7 +703,8 @@ static void __init init_board_rndis(void)
 
 	rndis_pdata.ethaddr[0] = 0x02;
 	src = device_serial;
-	for (i = 0; *src; i++) {
+	for (i = 0; *src; i++) 
+	{
 		/* XOR the USB serial across the remaining bytes */
 		rndis_pdata.ethaddr[i % (ETH_ALEN - 1) + 1] ^= *src++;
 	}
@@ -770,7 +792,7 @@ static int __init mapphone_usb_init(void)
 	printk(KERN_INFO "Patched mot_android_vid_pid.\n");
 	
 	/* init rndis platform device */
-	init_board_rndis();
+	init_rndis_device();
 
 	/* initialize endpoint autoconfig */
 	mapphone_init_epnum(android_config_driver->cdev->gadget);
@@ -793,7 +815,6 @@ static int __init mapphone_usb_init(void)
 	
 	unlock_kernel();
 		
-
 	/* get rndis_function */
 	rndis_function = mapphone_f_rndis_init();
 	
