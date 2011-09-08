@@ -100,49 +100,49 @@ struct usb_configuration* android_config_driver;
 struct usb_device_descriptor* device_desc;
 
 /* Motorola usb functions groups */
-static char *usb_functions_ums[] = 
+static char* usb_functions_ums[] = 
 {
 	"usb_mass_storage",
 };
 
-static char *usb_functions_ums_adb[] = 
+static char* usb_functions_ums_adb[] = 
 {
 	"usb_mass_storage",
 	"adb",
 };
 
-static char *usb_functions_rndis[] = 
+static char* usb_functions_rndis[] = 
 {
 	"rndis",
 };
 
-static char *usb_functions_rndis_adb[] = 
+static char* usb_functions_rndis_adb[] = 
 {
 	"rndis",
 	"adb",
 };
 
-static char *usb_functions_phone_portal_lite[] = 
+static char* usb_functions_phone_portal_lite[] = 
 {
 	"acm",
 	"usbnet",
 };
 
-static char *usb_functions_phone_portal_lite_adb[] = 
+static char* usb_functions_phone_portal_lite_adb[] = 
 {
 	"acm",
 	"usbnet",
 	"adb",
 };
 
-static char *usb_functions_phone_portal[] = 
+static char* usb_functions_phone_portal[] = 
 {
 	"acm",
 	"usbnet",
 	"mtp",
 };
 
-static char *usb_functions_phone_portal_adb[] = 
+static char* usb_functions_phone_portal_adb[] = 
 {
 	"acm",
 	"usbnet",
@@ -150,28 +150,28 @@ static char *usb_functions_phone_portal_adb[] =
 	"adb",
 };
 
-static char *usb_functions_mtp[] = 
+static char* usb_functions_mtp[] = 
 {
 	"mtp",
 };
 
-static char *usb_functions_mtp_adb[] = 
+static char* usb_functions_mtp_adb[] = 
 {
 	"mtp",
 	"adb",
 };
 
-static char *usb_functions_acm[] = 
+static char* usb_functions_acm[] = 
 {
 	"acm",
 };
 
-static char *usb_functions_factory[] = 
+static char* usb_functions_factory[] = 
 {
 	"usbnet",
 };
 
-static char *usb_functions_all[] = 
+static char* usb_functions_all[] = 
 {
 	"acm",
 	"usbnet",
@@ -378,7 +378,7 @@ struct android_usb_product* get_best_product(const char* required_function)
 	if (!p)
 		return NULL;
 		 
-	for (i = 0; i < count; i++, p++) 
+	for (i = 0; i < count; i++) 
 	{
 		cur_mismatch = 0;
 		has_required = 0;
@@ -389,9 +389,9 @@ struct android_usb_product* get_best_product(const char* required_function)
 				continue;
 						
 			matched = 0;
-			for (j = 0; j < p->num_functions; j++)
+			for (j = 0; j < p[i].num_functions; j++)
 			{
-				if (!strcmp(p->functions[j], f->name))
+				if (!strcmp(p[i].functions[j], f->name))
 				{
 					matched = 1;
 					
@@ -409,7 +409,7 @@ struct android_usb_product* get_best_product(const char* required_function)
 		if ((required_function == NULL || has_required) && best_mismatch > cur_mismatch)
 		{
 			best_mismatch = cur_mismatch;
-			best = p;
+			best = &(p[i]);
 		}
 	}
 	
@@ -622,7 +622,7 @@ static void android_enable_function_hijack(struct usb_function *f, int enable)
 		/* assign vid, pid and device class */
 		if (dev_pid_vid != NULL)
 		{
-			/* Wnable it (it will be valid configuration) 
+			/* Enable it (it will be valid configuration) 
 			 * We're inside hijacked function, so call hijack directly.
 			 */
 			enable_android_usb_product_function_hijack(dev_pid_vid->name, strlen(dev_pid_vid->name) + 1);
@@ -722,6 +722,10 @@ static void __init update_usb_config(struct android_usb_function* rndis_function
 	mapphone_android_register_function(rndis_function);
 	printk(KERN_INFO "Registered rndis function.\n");
 
+	/* Apply fix for mot_android_vid_pid */			
+	memcpy(&mot_android_vid_pid[0], &mot_vid_pid_fix[0], sizeof(struct device_pid_vid) * MAX_DEVICE_TYPE_NUM );
+	printk(KERN_INFO "Patched mot_android_vid_pid.\n");
+
 	/* update usb data */
 	_android_dev->products = usb_products;
 	_android_dev->num_products = ARRAY_SIZE(usb_products);
@@ -786,11 +790,7 @@ static int __init mapphone_usb_init(void)
 	
 	android_config_driver = _android_dev->config;
 	device_desc = &(_android_dev->cdev->desc);
-	
-	/* Apply fix for mot_android_vid_pid */			
-	memcpy(&mot_android_vid_pid[0], &mot_vid_pid_fix[0], sizeof(struct device_pid_vid) * MAX_DEVICE_TYPE_NUM );
-	printk(KERN_INFO "Patched mot_android_vid_pid.\n");
-	
+		
 	/* init rndis platform device */
 	init_rndis_device();
 
