@@ -174,10 +174,10 @@ static char *usb_functions_all[] =
 /* VID and PID definitions */
 #define MAPPHONE_VENDOR_ID														 0x22B8
 #define MAPPHONE_FACTORY_PRODUCT_ID                    0x41D4
-#define MAPPHONE_PRODUCT_ID														 0x41D9
-#define MAPPHONE_ADB_PRODUCT_ID												 0x41DB
-#define MAPPHONE_RNDIS_PRODUCT_ID											 0x41E4
-#define MAPPHONE_RNDIS_ADB_PRODUCT_ID									 0x41E5
+#define MAPPHONE_PRODUCT_ID                            0x41D9
+#define MAPPHONE_ADB_PRODUCT_ID                        0x41DB
+#define MAPPHONE_RNDIS_PRODUCT_ID                      0x41E4
+#define MAPPHONE_RNDIS_ADB_PRODUCT_ID                  0x41E5
 #define MAPPHONE_PHONE_PORTAL_PRODUCT_ID               0x41D8
 #define MAPPHONE_PHONE_PORTAL_ADB_PRODUCT_ID           0x41DA
 #define MAPPHONE_PHONE_PORTAL_LITE_PRODUCT_ID          0x41D5
@@ -192,9 +192,9 @@ static char *usb_functions_all[] =
 static struct android_usb_product usb_products[] = 
 {
 	{
-		.product_id			= MAPPHONE_PRODUCT_ID,
-		.num_functions	= ARRAY_SIZE(usb_functions_ums),
-		.functions			= usb_functions_ums,
+		.product_id     = MAPPHONE_PRODUCT_ID,
+		.num_functions  = ARRAY_SIZE(usb_functions_ums),
+		.functions      = usb_functions_ums,
 	},
 	{
 		.product_id			= MAPPHONE_ADB_PRODUCT_ID,
@@ -232,14 +232,14 @@ static struct android_usb_product usb_products[] =
 		.functions      = usb_functions_mtp_adb,
 	},
 	{
-		.product_id			= MAPPHONE_RNDIS_PRODUCT_ID,
-		.num_functions	= ARRAY_SIZE(usb_functions_rndis),
-		.functions			= usb_functions_rndis,
+		.product_id     = MAPPHONE_RNDIS_PRODUCT_ID,
+		.num_functions  = ARRAY_SIZE(usb_functions_rndis),
+		.functions      = usb_functions_rndis,
 	},
 	{
-		.product_id			= MAPPHONE_RNDIS_ADB_PRODUCT_ID,
-		.num_functions	= ARRAY_SIZE(usb_functions_rndis_adb),
-		.functions			= usb_functions_rndis_adb,
+		.product_id     = MAPPHONE_RNDIS_ADB_PRODUCT_ID,
+		.num_functions  = ARRAY_SIZE(usb_functions_rndis_adb),
+		.functions      = usb_functions_rndis_adb,
 	},
 };
 
@@ -249,12 +249,12 @@ static struct device_pid_vid mot_vid_pid_fix[] =
 	{"msc", MSC_TYPE_FLAG, MAPPHONE_VENDOR_ID, MAPPHONE_PRODUCT_ID, 
 		"Motorola Config 14", USB_CLASS_PER_INTERFACE, USB_CLASS_PER_INTERFACE, USB_CLASS_PER_INTERFACE},
 	{"msc_adb", MSC_TYPE_FLAG | ADB_TYPE_FLAG, MAPPHONE_VENDOR_ID, MAPPHONE_ADB_PRODUCT_ID,
-	 "Motorola Config 42", USB_CLASS_PER_INTERFACE, USB_CLASS_PER_INTERFACE, USB_CLASS_PER_INTERFACE},
+		"Motorola Config 42", USB_CLASS_PER_INTERFACE, USB_CLASS_PER_INTERFACE, USB_CLASS_PER_INTERFACE},
 	 
 	{"mtp", MTP_TYPE_FLAG, MAPPHONE_VENDOR_ID, MAPPHONE_MTP_PRODUCT_ID, 
-	"Motorola Config 15", USB_CLASS_PER_INTERFACE, USB_CLASS_PER_INTERFACE, USB_CLASS_PER_INTERFACE},
+		"Motorola Config 15", USB_CLASS_PER_INTERFACE, USB_CLASS_PER_INTERFACE, USB_CLASS_PER_INTERFACE},
 	{"mtp_adb", MTP_TYPE_FLAG | ADB_TYPE_FLAG, MAPPHONE_VENDOR_ID, MAPPHONE_MTP_ADB_PRODUCT_ID,
-	 "Motorola Config 32", USB_CLASS_VENDOR_SPEC, USB_CLASS_VENDOR_SPEC, USB_CLASS_VENDOR_SPEC},
+		"Motorola Config 32", USB_CLASS_VENDOR_SPEC, USB_CLASS_VENDOR_SPEC, USB_CLASS_VENDOR_SPEC},
 
 	{"eth", ETH_TYPE_FLAG, MAPPHONE_VENDOR_ID, MAPPHONE_FACTORY_PRODUCT_ID, 
 		"Motorola Config 13", USB_CLASS_COMM, USB_CLASS_COMM, USB_CLASS_PER_INTERFACE},
@@ -264,7 +264,7 @@ static struct device_pid_vid mot_vid_pid_fix[] =
 	{"acm_eth", ACM_TYPE_FLAG | ETH_TYPE_FLAG, MAPPHONE_VENDOR_ID, MAPPHONE_PHONE_PORTAL_LITE_PRODUCT_ID, 
 		"Motorola Phone Portal Device", USB_CLASS_VENDOR_SPEC, USB_CLASS_VENDOR_SPEC, USB_CLASS_VENDOR_SPEC},
 	{"acm_eth_adb", ACM_TYPE_FLAG | ETH_TYPE_FLAG | ADB_TYPE_FLAG, MAPPHONE_VENDOR_ID, MAPPHONE_PHONE_PORTAL_LITE_ADB_PRODUCT_ID, 
-	"Motorola Phone Portal ADB Device", USB_CLASS_VENDOR_SPEC, USB_CLASS_VENDOR_SPEC, USB_CLASS_VENDOR_SPEC},
+		"Motorola Phone Portal ADB Device", USB_CLASS_VENDOR_SPEC, USB_CLASS_VENDOR_SPEC, USB_CLASS_VENDOR_SPEC},
 	
 	{"acm_eth_mtp", ACM_TYPE_FLAG | ETH_TYPE_FLAG | MTP_TYPE_FLAG, MAPPHONE_VENDOR_ID, MAPPHONE_PHONE_PORTAL_PRODUCT_ID,
 		"Motorola Config 30", USB_CLASS_VENDOR_SPEC, USB_CLASS_VENDOR_SPEC, USB_CLASS_VENDOR_SPEC},
