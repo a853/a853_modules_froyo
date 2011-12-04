@@ -36,7 +36,7 @@ extern int kallsyms_on_each_symbol(int (*fn)(void *, const char *, struct module
 			    void *data);
 
 SYMSEARCH_INIT_FUNCTION(lookup_symbol_address);
-EXPORT_SYMBOL(lookup_symbol_address);
+EXPORT_SYMBOL_GPL(lookup_symbol_address);
 
 static int find_kallsyms_lookup_name(void* data, const char* name, 
                           struct module * module, unsigned long address)
