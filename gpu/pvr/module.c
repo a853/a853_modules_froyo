@@ -712,7 +712,7 @@ static int __init PVRCore_Init(void)
 
 #if defined(PVR_LDM_MODULE)
 	
-	psPvrClass = class_create(THIS_MODULE, "pvr2");
+	psPvrClass = class_create(THIS_MODULE, "pvr");
 
 	if (IS_ERR(psPvrClass))
 	{
