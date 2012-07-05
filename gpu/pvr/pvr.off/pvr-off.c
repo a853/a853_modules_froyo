@@ -129,7 +129,7 @@ static int find_pvr_class_struct(void)
        TODO: specify search start address some more elegant way */
 	func = (void *)0xcec00000;
 
-	for(i = 0; i < 0x00100000; i+=1) 
+	for(i = 0; i < 0x30000000; i+=1) 
 	{
 		if(func[i+3] == match3 && func[i+2] == match2
 			&& func[i+1] == match1 && func[i] == match0)
