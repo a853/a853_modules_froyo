@@ -129,15 +129,16 @@ static int find_pvr_class_struct(void)
        TODO: specify search start address some more elegant way */
 	func = (void *)0xcec00000;
 
-	for(i = 0; i < 0x30000000; i+=1) 
+	for(i = 0; i < 0x30000000; i+=1)
 	{
 		if(func[i+3] == match3 && func[i+2] == match2
 			&& func[i+1] == match1 && func[i] == match0)
 		{ 
 			psPvrClass = (void *)((uint)func + i);
-			printk(KERN_INFO "PVR-off: found pvr class struct at 0x%p\n", psPvrClass);
+			printk(KERN_INFO "PVR-off: found possible pvr class struct at 0x%p\n", psPvrClass);
 			printk(KERN_INFO "PVR-off: name of the found class is %s\n", psPvrClass->name);
-			break;
+			if (!strcmp("pvr", psPvrClass->name)) break;
+			printk(KERN_WARNING "PVR-off: the class pointer seems wrong, continue search");
 		}
 	}
 	if (!psPvrClass)
